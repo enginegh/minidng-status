@@ -14,7 +14,7 @@ env:
     DEBUG: ${{ vars.DEBUG }}
 
 jobs:
-    job1:
+    pre:
         runs-on: ubuntu-latest
         outputs:
           matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -34,12 +34,13 @@ jobs:
               run: |
                   npm install
             - id: set-matrix
-              run: node src/scrapers.js --list
+              run: node src/scraper.js --list
 
     test-scrip:
+        needs: pre
         strategy:
           fail-fast: false
-          matrix: ${{fromJson(needs.job1.outputs.matrix)}}
+          matrix: ${{fromJson(needs.pre.outputs.matrix)}}
 
         name: Test ${{ matrix.playlists }}
         runs-on: ubuntu-latest
@@ -65,4 +66,4 @@ jobs:
                   CONFIG: ${{ secrets.CONFIG }}
                   NODE_OPTIONS: --openssl-legacy-provider
               run: |
-                  node src/scrapers.js --id ${{ matrix.playlists }}
+                  node src/scraper.js --id ${{ matrix.playlists }}
