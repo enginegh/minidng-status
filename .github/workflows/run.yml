@@ -65,7 +65,6 @@ jobs:
                   npm install
 
             - name: Run test script
-              timeout-minutes: 60
               env:
                   CONFIG: ${{ secrets.CONFIG }}
                   NODE_OPTIONS: --openssl-legacy-provider
