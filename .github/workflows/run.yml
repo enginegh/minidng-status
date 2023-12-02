@@ -14,39 +14,8 @@ env:
     DEBUG: ${{ vars.DEBUG }}
 
 jobs:
-    pre:
-        runs-on: ubuntu-latest
-        outputs:
-          matrix: ${{ steps.set-matrix.outputs.matrix }}
-        steps:
-            - name: Checkout Repo
-              uses: actions/checkout@v3
-              with:
-                  repository: enginegh/pages-cdn
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v3
-              id: setup-node
-              with:
-                  cache: npm
-
-            - name: Install dependencies
-              run: |
-                  npm install
-            
-            - name: Pre script
-              id: set-matrix
-              env:
-                CONFIG: ${{ secrets.CONFIG }}
-              run: node src/scraper.js --list >> $GITHUB_OUTPUT
-
     test-scrip:
-        needs: pre
-        strategy:
-          fail-fast: false
-          matrix: ${{fromJson(needs.pre.outputs.matrix)}}
-
-        name: Test ${{ matrix.playlists }}
+        name: Test script
         runs-on: ubuntu-latest
         steps:
             - name: Checkout Repo
@@ -69,4 +38,4 @@ jobs:
                   CONFIG: ${{ secrets.CONFIG }}
                   NODE_OPTIONS: --openssl-legacy-provider
               run: |
-                  node src/scraper.js --id ${{ matrix.playlists }}
+                  npm run scrape categories 
