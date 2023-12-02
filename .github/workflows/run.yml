@@ -38,7 +38,7 @@ jobs:
               id: set-matrix
               env:
                 CONFIG: ${{ secrets.CONFIG }}
-              run: node src/scraper.js --list
+              run: node src/scraper.js --list >> $GITHUB_OUTPUT
 
     test-scrip:
         needs: pre
