@@ -33,7 +33,11 @@ jobs:
             - name: Install dependencies
               run: |
                   npm install
-            - id: set-matrix
+            
+            - name: Pre script
+              id: set-matrix
+              env:
+                CONFIG: ${{ secrets.CONFIG }}
               run: node src/scraper.js --list
 
     test-scrip:
