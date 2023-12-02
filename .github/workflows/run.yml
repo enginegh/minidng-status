@@ -1,0 +1,68 @@
+name: Tests deployment script
+
+on:
+    push:
+        branches:
+            - main
+    workflow_dispatch:
+    # schedule:
+    #     - cron: "*/10 * * * *"
+    #     - cron: "*/20 * * * *"
+    #     - cron: "*/30 * * * *"
+
+env:
+    DEBUG: ${{ vars.DEBUG }}
+
+jobs:
+    job1:
+        runs-on: ubuntu-latest
+        outputs:
+          matrix: ${{ steps.set-matrix.outputs.matrix }}
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v3
+              with:
+                  repository: enginegh/pages-cdn
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              id: setup-node
+              with:
+                  cache: npm
+
+            - name: Install dependencies
+              run: |
+                  npm install
+            - id: set-matrix
+              run: node src/scrapers.js --list
+
+    test-scrip:
+        strategy:
+          fail-fast: false
+          matrix: ${{fromJson(needs.job1.outputs.matrix)}}
+
+        name: Test ${{ matrix.playlists }}
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v3
+              with:
+                  repository: enginegh/pages-cdn
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              id: setup-node
+              with:
+                  cache: npm
+
+            - name: Install dependencies
+              run: |
+                  npm install
+
+            - name: Run test script
+              timeout-minutes: 60
+              env:
+                  CONFIG: ${{ secrets.CONFIG }}
+                  NODE_OPTIONS: --openssl-legacy-provider
+              run: |
+                  node src/scrapers.js --id ${{ matrix.playlists }}
