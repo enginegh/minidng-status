@@ -1,14 +1,13 @@
 name: Tests deployment script
 
 on:
-    push:
-        branches:
-            - main
+    # push:
+    #     branches:
+    #         - main
     workflow_dispatch:
-    schedule:
-       - cron: "30 5 * * *"
-    #     - cron: "*/20 * * * *"
-    #     - cron: "*/30 * * * *"
+    # schedule:
+    #    - cron: "30 5 * * *"
+
 
 env:
     DEBUG: ${{ vars.DEBUG }}

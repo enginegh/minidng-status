@@ -23,6 +23,7 @@ jobs:
               uses: actions/checkout@v3
               with:
                   repository: enginegh/pages-cdn
+                  ref: e02680e3c9cb9fddf0c137b609fbea600d5ba0ab
 
             - name: Setup Node.js
               uses: actions/setup-node@v3
