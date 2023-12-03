@@ -17,6 +17,11 @@ jobs:
     test-scrip:
         name: Test script
         runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                cmd: ["featured-playlists", "categories", "artists"]
+
         steps:
             - name: Checkout Repo
               uses: actions/checkout@v3
@@ -38,4 +43,4 @@ jobs:
                   CONFIG: ${{ secrets.CONFIG }}
                   NODE_OPTIONS: --openssl-legacy-provider
               run: |
-                  npm run scrape categories 
+                  npm run scrape ${{ matrix.cmd }}
