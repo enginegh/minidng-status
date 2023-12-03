@@ -19,8 +19,9 @@ jobs:
         runs-on: ubuntu-latest
 
         strategy:
+            fail-fast: false
             matrix:
-                cmd: ["featured-playlists", "categories", "artists"]
+                cmd: ["featured-playlists", "categories", "artists", "recommendations"]
 
         steps:
             - name: Checkout Repo
