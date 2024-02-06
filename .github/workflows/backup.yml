@@ -1,4 +1,4 @@
-name: Tests deployment script
+name: Backup
 
 on:
     # push:
@@ -16,6 +16,9 @@ jobs:
 
         steps:
             - name: backup
+              env:
+                DOCKER_COMPOSE: ${{ secrets.DOCKER_COMPOSE }}
+                ENV: ${{ secrets.ENV }}
               run: |
                 echo $DOCKER_COMPOSE > docker-compose.yml
                 echo $ENV > .env 
