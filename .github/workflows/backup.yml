@@ -20,8 +20,8 @@ jobs:
                 DOCKER_COMPOSE: ${{ secrets.DOCKER_COMPOSE }}
                 ENV: ${{ secrets.ENV }}
               run: |
-                echo $DOCKER_COMPOSE > docker-compose.yml
-                echo $ENV > .env 
+                echo "$DOCKER_COMPOSE" > docker-compose.yml
+                echo "$ENV" > .env 
                 cat docker-compose.yml
                 cat .env
                 docker compose up
