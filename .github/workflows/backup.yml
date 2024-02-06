@@ -1,0 +1,22 @@
+name: Tests deployment script
+
+on:
+    # push:
+    #     branches:
+    #         - main
+    workflow_dispatch:
+
+env:
+    DEBUG: ${{ vars.DEBUG }}
+
+jobs:
+    backup:
+        name: MongoDB Backup
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: backup
+            - run: |
+              echo $DOCKER_COMPOSE > docker-compose.yml
+              echo $ENV > .env 
+              docker compose up
