@@ -16,7 +16,7 @@ jobs:
 
         steps:
             - name: backup
-            - run: |
+              run: |
                 echo $DOCKER_COMPOSE > docker-compose.yml
                 echo $ENV > .env 
                 docker compose up
