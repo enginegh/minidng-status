@@ -1,10 +1,12 @@
 name: Tests deployment script
 
 on:
-    # push:
-    #     branches:
-    #         - main
+    push:
+        branches:
+            - main
     workflow_dispatch:
+    schedule:
+       - cron: "30 5 * * *"
 
 
 env:
@@ -18,28 +20,9 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                cmd: ["featured-playlists", "categories", "artists", "recommendations"]
+                cmd: ["playlists", "categories", "artists", "shuffle"]
 
         steps:
-            - name: Checkout Repo
-              uses: actions/checkout@v3
-              with:
-                  repository: viper-adnan/lemonic-crawler
-                  token: ${{ secrets.TOKEN }}
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v3
-              id: setup-node
-              with:
-                  cache: npm
-
-            - name: Install dependencies
-              run: |
-                  npm install
-
-            - name: Run test script
-              env:
-                  CONFIG: ${{ secrets.CONFIG }}
-                  NODE_OPTIONS: --openssl-legacy-provider
-              run: |
-                  npm run scrape ${{ matrix.cmd }}
+            - name: Run scraper
+              run:
+                  docker run -tq -e CONFIG_URL="$CONFIG_URL" $IMAGE_NAME scraper ${{ matrix.cmd }}
