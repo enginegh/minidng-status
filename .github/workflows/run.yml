@@ -24,5 +24,6 @@ jobs:
 
         steps:
             - name: Run scraper
-              run:
-                  docker run -tq -e CONFIG_URL="$CONFIG_URL" $IMAGE_NAME scraper ${{ matrix.cmd }}
+              env:
+                IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
+              run: docker run -tq -e CONFIG_URL='${{ secrets.CONFIG_URL }}' ${{ env.IMAGE_NAME }} scraper ${{ matrix.cmd }}
