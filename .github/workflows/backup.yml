@@ -1,9 +1,6 @@
 name: Backup
 
 on:
-    # push:
-    #     branches:
-    #         - main
     workflow_dispatch:
 
 env:

@@ -1,12 +1,7 @@
-name: Tests deployment script
+name: Scraper
 
 on:
-    push:
-        branches:
-            - main
     workflow_dispatch:
-    schedule:
-       - cron: "0 */6 * * *"
 
 
 env:
